@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "yourdockerhubusername/nextjs-app"
+        DOCKER_IMAGE = "rajeshwar2473/nextjs-app"
         DOCKER_TAG = "latest"
         KUBECONFIG = "/var/lib/jenkins/.kube/config"
     }

@@ -7,13 +7,14 @@ pipeline {
         KUBECONFIG = "/var/lib/jenkins/.kube/config"
     }
 
+   stages {
     stage('Checkout') {
         steps {
             git branch: 'main'
                  url: 'https://github.com/Raju2473/nextJs_Project.git'
         }
     }
-    
+
         stage('Build Docker Image') {
             steps {
                 sh '''
@@ -53,3 +54,4 @@ pipeline {
             }
         }
     }
+}

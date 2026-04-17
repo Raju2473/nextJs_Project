@@ -7,18 +7,21 @@ pipeline {
         KUBECONFIG = "/var/lib/jenkins/.kube/config"
     }
 
-   stages {
-    stage('Checkout') {
-        steps {
-            git (branch: 'main',
-                 url: 'https://github.com/Raju2473/nextJs_Project.git')
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Raju2473/nextJs_Project.git'
+            }
         }
-    }
 
         stage('Build Docker Image') {
             steps {
                 sh '''
-                docker build -t $DOCKER_IMAGE:$DOCKER_TAG -f Docker/Dockerfile .
+                docker build \
+                  --build-arg MONGODB_URI=mongodb://dummy:27017/test \
+                  -t rajeshwar2473/nextjs-app:latest \
+                  -f Docker/Dockerfile .
                 '''
             }
         }
@@ -27,8 +30,8 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(
                     credentialsId: 'dockerhub-creds',
-                    usernameVariable: 'rajeshwar2473',
-                    passwordVariable: '123456'
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
                 )]) {
                     sh '''
                     echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin

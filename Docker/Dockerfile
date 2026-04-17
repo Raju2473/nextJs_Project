@@ -3,6 +3,10 @@ FROM node:18-alpine AS builder
 
 WORKDIR /app
 
+# ✅ added (only)
+ARG MONGODB_URI
+ENV MONGODB_URI=$MONGODB_URI
+
 COPY package*.json ./
 RUN npm install
 
@@ -15,6 +19,10 @@ FROM node:18-alpine
 WORKDIR /app
 
 ENV NODE_ENV=production
+
+# ✅ added (only)
+ARG MONGODB_URI
+ENV MONGODB_URI=$MONGODB_URI
 
 COPY --from=builder /app/package*.json ./
 RUN npm install --only=production

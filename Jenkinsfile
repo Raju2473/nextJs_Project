@@ -20,6 +20,7 @@ pipeline {
                 sh '''
                 docker build \
                   --build-arg MONGODB_URI=mongodb://dummy:27017/test \
+                  --build-arg NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_dummy \
                   -t rajeshwar2473/nextjs-app:latest \
                   -f Docker/Dockerfile .
                 '''

@@ -10,8 +10,8 @@ pipeline {
    stages {
     stage('Checkout') {
         steps {
-            git branch: 'main'
-                 url: 'https://github.com/Raju2473/nextJs_Project.git'
+            git (branch: 'main'
+                 url: 'https://github.com/Raju2473/nextJs_Project.git')
         }
     }
 

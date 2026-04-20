@@ -23,8 +23,7 @@ spec:
                 secretKeyRef:
                   name: clerk-secret
                   key: NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-
-            ✅ - name: CLERK_SECRET_KEY
+            - name: CLERK_SECRET_KEY
               valueFrom:
                 secretKeyRef:
                   name: clerk-secret

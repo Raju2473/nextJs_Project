@@ -17,16 +17,16 @@
 
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI!;
-
-if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI environment variable');
-}
 
 let isConnected = false;
 
 const connectDB = async () => {
   if (isConnected) return;
+  const MONGODB_URI = process.env.MONGODB_URI!;
+
+if (!MONGODB_URI) {
+  throw new Error('Please define the MONGODB_URI environment variable');
+}
 
   try {
     const db = await mongoose.connect(MONGODB_URI);

@@ -17,3 +17,9 @@ spec:
           image: rajeshwar2473/nextjs-app:latest
           ports:
             - containerPort: 3000
+          env:
+            - name: NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: clerk-secret
+                  key: NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY

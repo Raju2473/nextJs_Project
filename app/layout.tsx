@@ -19,16 +19,16 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <ClerkProvider>
     <html lang="en">
-      <body className={inter.className}>
-        <ChatLayout>
-          <Header />
-          {children}
-          <Toaster />
-        </ChatLayout>
-      </body>
+      <ClerkProvider>
+        <body className={inter.className}>
+          <ChatLayout>
+            <Header />
+            {children}
+            <Toaster />
+          </ChatLayout>
+        </body>
+      </ClerkProvider>
     </html>
-   </ClerkProvider>
   )
 }

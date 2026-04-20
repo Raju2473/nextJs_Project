@@ -3,11 +3,12 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "rajeshwar2473/nextjs-app"
-        DOCKER_TAG = "latest"
-        KUBECONFIG = "/var/lib/jenkins/.kube/config"
+        DOCKER_TAG   = "latest"
+        KUBECONFIG   = "/var/lib/jenkins/.kube/config"
     }
 
     stages {
+
         stage('Checkout') {
             steps {
                 git branch: 'main',
@@ -15,17 +16,16 @@ pipeline {
             }
         }
 
-       stage('Build Docker Image') {
-    steps {
-        sh '''
-        docker build \
-          --build-arg MONGODB_URI=mongodb://dummy:27017/test \
-          --build-arg NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_Ym9zcy1veC03Ny5jbGVyay5hY2NvdW50cy5kZXYk \
-          -t rajeshwar2473/nextjs-app:latest \
-          -f Docker/Dockerfile .
-        '''
-    }
-  }
+        stage('Build Docker Image') {
+            steps {
+                sh '''
+                docker build \
+                  --build-arg MONGODB_URI=mongodb://dummy:27017/test \
+                  -t $DOCKER_IMAGE:$DOCKER_TAG \
+                  -f Docker/Dockerfile .
+                '''
+            }
+        }
 
         stage('Login to Docker Hub') {
             steps {

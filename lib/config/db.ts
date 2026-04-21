@@ -15,27 +15,32 @@
 
 // export default connectDB;
 
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-  const MONGODB_URI = process.env.MONGODB_URI!;
+let cached = global.mongoose;
 
-if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI environment variable');
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
 }
 
-
-let isConnected = false;
-
 const connectDB = async () => {
-  if (isConnected) return;
+  // ✅ Runtime check ONLY
+  if (!process.env.MONGODB_URI) {
+    throw new Error("MONGODB_URI is not defined at runtime");
+  }
 
+  // ✅ Reuse existing connection
+  if (cached.conn) {
+    return cached.conn;
+  }
 
   try {
-    const db = await mongoose.connect(MONGODB_URI);
-    isConnected = true;
-    console.log('✅ MongoDB connected');
+    cached.promise ??= mongoose.connect(process.env.MONGODB_URI);
+    cached.conn = await cached.promise;
+    console.log("✅ MongoDB connected");
+    return cached.conn;
   } catch (error) {
-    console.error('❌ MongoDB connection error:', error);
+    console.error("❌ MongoDB connection error:", error);
     throw error;
   }
 };

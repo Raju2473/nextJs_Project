@@ -19,17 +19,12 @@ FROM node:18-alpine
 WORKDIR /app
 ENV NODE_ENV=production
 
-# runtime secrets will be injected by Kubernetes
-ENV MONGODB_URI=""
-ENV CLERK_SECRET_KEY=""
+# Secrets will be injected at runtime by Kubernetes (no ENV here)
 
 COPY --from=builder /app/package*.json ./
 RUN npm install --only=production
 
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/next.config.mjs ./
-
+COPY --from=builder /app  ./
 EXPOSE 3000
 
 CMD ["npm", "run", "start"]

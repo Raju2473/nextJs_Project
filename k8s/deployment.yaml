@@ -22,10 +22,10 @@ spec:
             - name: MONGODB_URI
               valueFrom:
                 secretKeyRef:
-                  name: nextjs-secrets
+                  name: app-secrets
                   key: MONGODB_URI
             - name: CLERK_SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: nextjs-secrets
+                  name: app-secrets
                   key: CLERK_SECRET_KEY

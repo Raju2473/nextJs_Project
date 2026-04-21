@@ -36,4 +36,3 @@ spec:
                 secretKeyRef:
                   name: nextjs-secrets
                   key: NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-``

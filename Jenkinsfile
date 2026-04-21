@@ -12,7 +12,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 withCredentials([
-                    string(credentialsId: 'clerk-publishable-key', variable: 'CLERK_KEY')
+                    string(credentialsId: 'NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY', variable: 'CLERK_KEY')
                 ]) {
                     sh '''
                     docker build \

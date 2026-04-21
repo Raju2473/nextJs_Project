@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nextjs-deployment
+  name: nextjs-app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: nextjs
@@ -15,16 +15,17 @@ spec:
       containers:
         - name: nextjs
           image: rajeshwar2473/nextjs-app:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
           env:
-            - name: NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+            - name: MONGODB_URI
               valueFrom:
                 secretKeyRef:
-                  name: clerk-secret
-                  key: NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+                  name: nextjs-secrets
+                  key: MONGODB_URI
             - name: CLERK_SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: clerk-secret
+                  name: nextjs-secrets
                   key: CLERK_SECRET_KEY

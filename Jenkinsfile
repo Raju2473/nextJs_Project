@@ -16,21 +16,21 @@ pipeline {
             }
         }
 
-
-stage('Build Docker Image') {
-    steps {
-        withCredentials([string(credentialsId: 'clerk-publishable-key', variable: 'CLERK_KEY')]) {
-            sh '''
-            docker build \
-              --build-arg NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=$CLERK_KEY \
-              --build-arg MONGODB_URI=mongodb://dummy:27017/test \
-              -t $DOCKER_IMAGE:$DOCKER_TAG \
-              -f Docker/Dockerfile .
-            '''
+        stage('Build Docker Image') {
+            steps {
+                withCredentials([
+                    string(credentialsId: 'clerk-publishable-key', variable: 'CLERK_KEY')
+                ]) {
+                    sh '''
+                    docker build \
+                      --build-arg NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=$CLERK_KEY \
+                      --build-arg MONGODB_URI=dummy \
+                      -t $DOCKER_IMAGE:$DOCKER_TAG \
+                      -f Docker/Dockerfile .
+                    '''
+                }
+            }
         }
-    }
-}
-
 
         stage('Login to Docker Hub') {
             steps {
@@ -46,7 +46,7 @@ stage('Build Docker Image') {
             }
         }
 
-        stage('Push Image') {
+        stage('Push Docker Image') {
             steps {
                 sh '''
                 docker push $DOCKER_IMAGE:$DOCKER_TAG
@@ -54,7 +54,7 @@ stage('Build Docker Image') {
             }
         }
 
-        stage('Deploy to Kubernetes') {
+        stage('Deploy to K3s') {
             steps {
                 sh '''
                 kubectl apply -f k8s/deployment.yaml

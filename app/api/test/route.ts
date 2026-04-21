@@ -1,4 +1,3 @@
-// app/api/test/route.ts
 import connectDB from "@/lib/config/db";
 import { NextResponse } from "next/server";
 

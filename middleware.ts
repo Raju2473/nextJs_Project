@@ -1,12 +1,25 @@
-import { clerkMiddleware } from '@clerk/nextjs/server';
+import { clerkMiddleware } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
-export const runtime = "nodejs"; // ✅ REQUIRED for Kubernetes env vars
+export const runtime = "nodejs"; // ✅ correct for Kubernetes
 
-export default clerkMiddleware();
+export default clerkMiddleware((auth, req) => {
+  // ✅ allow public routes
+  if (
+    req.nextUrl.pathname === "/" ||
+    req.nextUrl.pathname.startsWith("/_next") ||
+    req.nextUrl.pathname.startsWith("/api")
+  ) {
+    return NextResponse.next();
+  }
+
+  // ✅ protect everything else
+  auth().protect();
+});
 
 export const config = {
   matcher: [
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    '/(api|trpc)(.*)',
+    "/((?!_next|.*\\..*).*)",
+    "/(api|trpc)(.*)",
   ],
 };
